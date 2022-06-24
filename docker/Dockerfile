@@ -83,16 +83,15 @@ RUN conda config --append channels  esgf
 
 RUN conda install -c conda-forge  mamba
 
-COPY conda-packages.txt .
-
-RUN PKGS=`cat conda-direct-packages.txt |grep -P -v "r-l2p|^vector-|^r-foundr|spark|snappy|python-file-paths|foundry|networkx|decorator|umap-learn" | tr " " "="  | tr "\n" " "`; mamba install $PKGS
-
 
 #Download l2p-0.0_1
 RUN wget https://github.com/CCBR/l2p/raw/master/r-l2p-0.0_1-r35_0.tar.bz2 -O /tmp/r-l2p-0.0_1-r35_0.tar.bz2 
 # Install in a conda enviroment
 RUN mamba install /tmp/r-l2p-0.0_1-r35_0.tar.bz2
 
+COPY conda-packages.txt .
+
+RUN PKGS=`cat conda-direct-packages.txt |grep -P -v "r-l2p|^vector-|^r-foundr|spark|snappy|python-file-paths|foundry|networkx|decorator|umap-learn" | tr " " "="  | tr "\n" " "`; mamba install $PKGS
 
 
 CMD ["bash"]
